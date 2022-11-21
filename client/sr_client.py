@@ -3,6 +3,7 @@ from socket import *
 import speech_recognition as sr
 import pyttsx3
 import threading as thread
+import time
 
 recorder = sr.Recognizer()
 engine = pyttsx3.init()
@@ -121,8 +122,7 @@ def socket_connect():    #Call this function to connect with the server
             print("Connecting to server @ %s:%d..." %(SERVER_IP, SERVER_PORT))
             print("Connecting")
             tcpClicSock.connect(ADDR)       #Connection with the server
-            
-            engine.say("connected to rover")
+            engine.say("connected to rover successfully")
             engine.runAndWait()
             print("Connected")
             ip_stu=0                         #'0' means connected
@@ -167,16 +167,27 @@ def loop():
                     engine.say("sending command to mars rover")
                     if "forward" in text:
                         tcpClicSock.send(('forward').encode())
+                        time.sleep(2)
+                        tcpClicSock.send(('DS').encode())
                         
                     elif "backward" in text:
                         tcpClicSock.send(('backward').encode())
+                        time.sleep(2)
+                        tcpClicSock.send(('DS').encode()) 
                         
+                        
+                    elif "fries" in text:
+                        tcpClicSock.send(('DS').encode())
+                         
                     elif "left" in text:
                         tcpClicSock.send(('left').encode())
                         
                     elif "right" in text:
                         tcpClicSock.send(('right').encode())
-                    
+                        
+                    elif "middle" in text:
+                        tcpClicSock.send(('TS').encode())
+                        
                     elif "up" in text:
                         tcpClicSock.send(('up').encode())
                         
